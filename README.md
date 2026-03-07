@@ -1,66 +1,177 @@
-# 🧠 All Labs – Writeups y Resolución de Máquinas
+# 🛡️ PortSwigger Web Security Academy – Writeups de Labs
 
-Repositorio dedicado a la **documentación, análisis y resolución de máquinas** pertenecientes a los diferentes **laboratorios de All Labs**.
+Repositorio dedicado a la **documentación y resolución de los laboratorios de seguridad web** de la plataforma **PortSwigger Web Security Academy**, desarrollada por **PortSwigger**.
 
-El objetivo de este repositorio es **centralizar notas técnicas, metodologías de explotación y aprendizaje práctico** en entornos de laboratorio enfocados en **ciberseguridad ofensiva y pruebas de penetración**.
+Este repositorio contiene **writeups técnicos, análisis de vulnerabilidades y metodología de explotación** aplicada a los diferentes laboratorios disponibles en la academia.
 
----
-
-## 📌 Objetivo del Repositorio
-
-Este repositorio tiene como finalidad:
-
-* Documentar el **proceso completo de resolución de máquinas**.
-* Mantener un **registro estructurado de técnicas utilizadas**.
-* Facilitar la **revisión y aprendizaje posterior**.
-* Servir como **base de conocimiento personal** para metodologías de pentesting.
-
-Cada writeup incluye el **proceso desde el reconocimiento inicial hasta la obtención de privilegios elevados**, explicando las herramientas y técnicas utilizadas.
-
-Cada carpeta contiene:
-
-* 📄 **Writeup detallado**
-* 📸 Evidencias o capturas relevantes
-* 🛠 Comandos utilizados
-* 🔍 Explicación de la vulnerabilidad explotada
+El objetivo principal es **documentar el proceso de aprendizaje en seguridad web**, desde la identificación de vulnerabilidades hasta su explotación controlada dentro del entorno de laboratorio.
 
 ---
 
-## 📚 Contenido de los Writeups
+# 🎯 Objetivo del Repositorio
 
-Cada writeup incluye normalmente:
+Este proyecto tiene como finalidad:
 
-* 🎯 Objetivo de la máquina
-* 🧾 Conclusiones y aprendizaje
+* Documentar la **resolución de laboratorios de seguridad web**.
+* Explicar **paso a paso las vulnerabilidades explotadas**.
+* Servir como **base de conocimiento personal en pentesting web**.
+* Practicar técnicas utilizadas en **auditorías de aplicaciones web reales**.
+
+Cada writeup incluye:
+
+* Contexto del laboratorio
+* Metodología utilizada
+* Payloads empleados
+* Evidencia del exploit
+* Explicación técnica de la vulnerabilidad
 
 ---
 
-## ⚠️ Aviso
+# 🧪 Metodología General
+
+Para resolver los laboratorios se sigue un flujo de trabajo típico de **pentesting web**:
+
+### 1️⃣ Reconocimiento de la aplicación
+
+Identificación de:
+
+* Funcionalidades principales
+* Parámetros de entrada
+* Flujos de autenticación
+* Interacciones con el backend
+
+Herramientas utilizadas:
+
+* **Burp Suite**
+* Navegador con proxy interceptando tráfico
+
+---
+
+### 2️⃣ Intercepción y análisis de peticiones
+
+Uso de **Burp Suite** para:
+
+* Interceptar peticiones HTTP
+* Analizar parámetros manipulables
+* Identificar posibles puntos de inyección
+
+Módulos utilizados:
+
+* Proxy
+* Repeater
+* Intruder
+* Decoder
+
+---
+
+### 3️⃣ Identificación de vulnerabilidades
+
+Dependiendo del laboratorio, se analizan diferentes tipos de vulnerabilidades como:
+
+* **SQL Injection**
+* **Cross-Site Scripting (XSS)**
+* **Cross-Site Request Forgery (CSRF)**
+* **Server-Side Template Injection (SSTI)**
+* **Access Control Vulnerabilities**
+* **Authentication Bypass**
+* **File Upload Vulnerabilities**
+
+---
+
+### 4️⃣ Desarrollo del exploit
+
+Una vez identificada la vulnerabilidad se procede a:
+
+* Construir el payload
+* Manipular la petición HTTP
+* Confirmar la explotación de la vulnerabilidad
+
+---
+
+# 📂 Estructura del Repositorio
+
+Las resoluciones están organizadas por **categoría de vulnerabilidad**, siguiendo la misma estructura que la academia.
+
+```
+portswigger-labs/
+│
+├── SQL_Injection/
+│   ├── lab_01.md
+│   ├── lab_02.md
+│
+├── XSS/
+│   ├── lab_reflected_xss.md
+│   ├── lab_stored_xss.md
+│
+├── CSRF/
+│   ├── csrf_basic.md
+│
+├── Access_Control/
+│   ├── lab_vertical_privilege_escalation.md
+│
+└── README.md
+```
+
+Cada laboratorio contiene:
+
+* 📄 Explicación del laboratorio
+* 🔎 Análisis de la vulnerabilidad
+* 🧠 Razonamiento del ataque
+* 💥 Payload utilizado
+* ✅ Confirmación de explotación
+
+---
+
+# 🛠 Herramientas Utilizadas
+
+Las principales herramientas empleadas durante los laboratorios son:
+
+| Herramienta             | Descripción                                 |
+| ----------------------- | ------------------------------------------- |
+| **Burp Suite**          | Intercepción y manipulación de tráfico HTTP |
+| Navegador Web           | Interacción con la aplicación               |
+| DevTools                | Análisis del frontend                       |
+| Payloads personalizados | Pruebas de explotación                      |
+
+---
+
+# 📚 Categorías Cubiertas
+
+Entre las vulnerabilidades documentadas se incluyen:
+
+* SQL Injection
+* Cross-Site Scripting (XSS)
+* Cross-Site Request Forgery (CSRF)
+* Authentication Vulnerabilities
+* Access Control
+* File Upload
+* Business Logic Vulnerabilities
+* Information Disclosure
+* Server-Side Request Forgery (SSRF)
+
+---
+
+# ⚠️ Aviso Legal
 
 Este repositorio tiene **fines exclusivamente educativos**.
 
-Toda la información contenida aquí proviene de **laboratorios diseñados para aprendizaje y práctica de seguridad informática**.
-No debe utilizarse contra sistemas sin autorización.
+Los laboratorios pertenecen a **PortSwigger** y forman parte de la plataforma **PortSwigger Web Security Academy**, diseñada para el aprendizaje de seguridad en aplicaciones web.
+
+La información aquí documentada **no debe utilizarse para atacar sistemas sin autorización**.
 
 ---
 
-## 📖 Notas
-
-Los writeups pueden variar en nivel de detalle dependiendo de la complejidad de la máquina o del objetivo del laboratorio.
-
-Este repositorio se irá **actualizando progresivamente** conforme se resuelvan nuevas máquinas.
-
----
-
-## 👨‍💻 Autor
+# 👨‍💻 Autor
 
 Repositorio mantenido por:
 
 **Alejandro**
 
-Especializado en:
+Intereses principales:
 
-* Pentesting
-* Seguridad ofensiva
-* Análisis de vulnerabilidades
-* Automatización con scripts
+* Web Pentesting
+* Vulnerability Research
+* Seguridad en aplicaciones web
+* Automatización de pruebas de seguridad
+
+
