@@ -186,6 +186,8 @@ category = 'Gifts' OR 1=1
 
 hará que **todas las filas de la tabla coincidan con la consulta**.
 
+![Despliegue](Imágenes/Resultado.png)
+
 ---
 
 ## Comentario SQL
