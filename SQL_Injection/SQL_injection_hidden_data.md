@@ -1,13 +1,3 @@
-Te dejo una **nota estilo GitHub completa y profesional** para ese laboratorio de **PortSwigger Web Security Academy**. Está organizada como **writeup técnico**, con explicación conceptual, pasos, payload y análisis de la vulnerabilidad.
-
-Puedes pegarla directamente en tu repo como:
-
-```
-SQL_Injection/SQL_injection_hidden_data.md
-```
-
----
-
 # SQL Injection Vulnerability in WHERE Clause Allowing Retrieval of Hidden Data
 
 Laboratorio de **PortSwigger Web Security Academy** enfocado en la explotación de una **inyección SQL en la cláusula WHERE** que permite recuperar información que debería permanecer oculta.
@@ -340,8 +330,6 @@ Los **Object Relational Mappers** reducen el riesgo de inyecciones SQL.
 
 ---
 
-# ✅ Conclusión
-
 Este laboratorio demuestra cómo una **inyección SQL simple en una cláusula WHERE** puede permitir a un atacante:
 
 * Manipular la lógica de una consulta
@@ -351,11 +339,3 @@ Este laboratorio demuestra cómo una **inyección SQL simple en una cláusula WH
 La explotación se logra inyectando una condición lógica siempre verdadera (`OR 1=1`) y comentando el resto de la consulta.
 
 Este tipo de vulnerabilidad sigue siendo **una de las más comunes en aplicaciones web mal desarrolladas**.
-
----
-
-Si quieres, en el siguiente mensaje puedo darte también:
-
-* 🔥 **Una plantilla profesional para TODOS los labs de PortSwigger** (solo cambias payloads y capturas)
-* 🧠 **Un README para el repo que impresiona mucho a reclutadores de ciberseguridad**
-* 📚 **La estructura perfecta para documentar los +200 labs de PortSwigger**.
