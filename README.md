@@ -1,7 +1,3 @@
-Aquí tienes un **README.md profesional y claro** para un repositorio de **máquinas resueltas de All Labs**. Está pensado para GitLab, con estructura ordenada, secciones útiles y estilo técnico.
-
----
-
 # 🧠 All Labs – Writeups y Resolución de Máquinas
 
 Repositorio dedicado a la **documentación, análisis y resolución de máquinas** pertenecientes a los diferentes **laboratorios de All Labs**.
