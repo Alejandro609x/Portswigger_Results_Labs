@@ -123,7 +123,7 @@ Una vez identificado el número de columnas, se utiliza **UNION SELECT** para in
 ```sql
 Gifts' UNION SELECT '1','2' FROM dual-- -
 ```
-![Resultado del laboratorio](Imagenes/orderdos.png)
+![Resultado del laboratorio](Imagenes/verifibyorden.png)
 ---
 
 # Explicación del payload
