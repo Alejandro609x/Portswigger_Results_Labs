@@ -220,7 +220,7 @@ Una vez confirmada la base de datos, se consulta la vista del sistema `v$version
 Gifts' UNION SELECT '1', banner FROM v$version-- -
 ```
 
-![Resultado del laboratorio](Imagenes/orderdos.png)
+![Resultado del laboratorio](Imagenes/oracleversion.png)
 
 ---
 
