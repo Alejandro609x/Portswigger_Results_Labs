@@ -54,6 +54,8 @@ Para ello se puede utilizar el siguiente payload:
 ' ORDER BY 2-- -
 ```
 
+![Resultado del laboratorio](Imagenes/orderbydos.png)
+
 Si los valores aparecen reflejados en la página o no presenta algun error, significa que:
 
 * la consulta devuelve **2 columnas**
@@ -70,7 +72,7 @@ Una vez identificado el número de columnas, se puede inyectar una segunda consu
 ```
 ' UNION SELECT '1', @@version -- -
 ```
-
+![Resultado del laboratorio](Imagenes/unionselectsql.png)
 ---
 
 # Explicación del payload
