@@ -154,8 +154,8 @@ Una vez confirmada la vulnerabilidad, es posible enumerar las bases de datos exi
 
 ```sql
 ' UNION SELECT 1, schema_name FROM information_schema.schemata-- -
-```
-
+``` 
+![Resultado del laboratorio](Imagenes/schema.png)
 ---
 
 # Explicación del payload
